@@ -1,0 +1,10 @@
+# Local development artifacts — never publish
+.hermes/
+*.log
+pi-task.md
+plan.md
+implementation-report.md
+
+# OS noise
+.DS_Store
+Thumbs.db

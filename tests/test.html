@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fantasy Chess — browser tests</title>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/board.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/terrain.css">
+    <link rel="stylesheet" href="../css/three.css">
+  </head>
+  <body>
+    <h1>Browser tests</h1>
+    <p id="result" aria-live="polite">Running…</p>
+    <ol id="cases"></ol>
+    <div id="board" style="width: 320px" role="grid" aria-label="Test board"></div>
+    <script src="../vendor/chess.js"></script>
+    <script src="../js/core/ai.js"></script>
+    <script src="../js/core/game.js"></script>
+    <script src="../js/ui/board.js"></script>
+    <script src="../js/ui/themes.js"></script>
+    <script src="../js/ui/controls.js"></script>
+    <script src="../js/ui/fullscreen.js"></script>
+    <script src="../js/ui/match-flow.js"></script>
+    <script src="../js/ui/view-mode.js"></script>
+    <script src="../js/ui/chronicle.js"></script>
+    <script src="../js/ui/effects.js"></script>
+    <script src="test.js"></script>
+  </body>
+</html>

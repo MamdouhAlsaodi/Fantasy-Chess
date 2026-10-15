@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101921">
+    <title>ممالك الشطرنج — Fantasy Chess</title>
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/board.css">
+    <link rel="stylesheet" href="css/terrain.css">
+    <link rel="stylesheet" href="css/chronicle.css">
+    <link rel="stylesheet" href="css/three.css">
+  </head>
+  <body data-theme="highlands" data-phase="menu" data-view="2d">
+    <div class="scene" aria-hidden="true"></div>
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="brand-mark" aria-hidden="true">
+          <img src="assets/pieces/dawn/king.webp" alt="">
+        </div>
+        <div class="brand-copy">
+          <p class="eyebrow">FANTASY CHESS <span aria-hidden="true">✦</span> لعبة شطرنج خيالية</p>
+          <h1>ممالك الشطرنج</h1>
+          <p class="intro">استدعِ جيشك. دافع عن العرش. لكل نقلة أثر في المعركة.</p>
+        </div>
+        <p class="offline-badge"><span aria-hidden="true">✦</span> معركة محلية دون اتصال</p>
+      </header>
+
+      <main id="battlefield" class="game-layout" data-phase="menu" data-chronicle-open="false">
+        <div class="terrain terrain-left" aria-hidden="true"></div>
+        <div class="terrain terrain-right" aria-hidden="true"></div>
+
+        <section class="arena" aria-labelledby="arena-title">
+          <header class="arena-heading">
+            <div class="arena-title">
+              <p class="section-kicker">مملكة الفجر <span aria-hidden="true">✧</span> جيش الظل</p>
+              <h2 id="arena-title">ساحة الممالك</h2>
+            </div>
+            <div class="arena-actions">
+              <button type="button" id="settings-toggle" class="hud-button"
+                aria-controls="settings-panel" aria-expanded="true">إخفاء الإعدادات</button>
+              <button type="button" id="fullscreen" class="hud-button" aria-pressed="false"
+                aria-label="افتح ساحة المعركة بملء الشاشة">⛶ <span>ملء الشاشة</span></button>
+              <button type="button" id="chronicle-toggle" class="hud-button" aria-controls="chronicle"
+                aria-expanded="false" hidden>السجل</button>
+              <button type="button" id="view-mode" class="hud-button view-toggle" aria-pressed="false"
+                aria-label="الانتقال إلى ساحة شطرنج ثلاثية الأبعاد" hidden>3D</button>
+              <button type="button" id="end-battle" class="hud-button end-button" hidden>إنهاء المعركة</button>
+              <p id="status" class="status-pill" role="status" aria-live="polite">اختر عالمك ثم ابدأ</p>
+            </div>
+          </header>
+
+          <div class="army-banner enemy-banner">
+            <img src="assets/pieces/shadow/king.webp" alt="" aria-hidden="true">
+            <div><strong>جيش الظل</strong><small>الخصم الآلي · القطع الداكنة</small></div>
+            <span class="army-sigil" aria-hidden="true">✦</span>
+          </div>
+
+          <div class="board-frame">
+            <div class="frame-corner top-start" aria-hidden="true"></div>
+            <div class="frame-corner top-end" aria-hidden="true"></div>
+            <div id="board" role="grid" aria-label="رقعة الشطرنج، الفجر ضد الظل"></div>
+            <div id="board-3d" class="three-stage" aria-label="ساحة الشطرنج ثلاثية الأبعاد" hidden></div>
+            <div class="frame-corner bottom-start" aria-hidden="true"></div>
+            <div class="frame-corner bottom-end" aria-hidden="true"></div>
+          </div>
+
+          <div class="army-banner player-banner">
+            <img src="assets/pieces/dawn/king.webp" alt="" aria-hidden="true">
+            <div><strong>مملكة الفجر</strong><small>جيشك · القطع الفاتحة</small></div>
+            <span class="army-sigil" aria-hidden="true">✦</span>
+          </div>
+          <div class="arena-foot">
+            <p id="last">اختر عالمك وقوة الخصم، ثم ابدأ المعركة.</p>
+            <button type="button" id="start-battle" class="start-button">ابدأ المعركة <span aria-hidden="true">⚔</span></button>
+          </div>
+
+          <section id="chronicle" class="chronicle" aria-labelledby="chronicle-title" hidden>
+            <div class="chronicle-heading">
+              <h3 id="chronicle-title">مخطوط النقلات</h3>
+              <div class="chronicle-actions" role="group" aria-label="التحكم بالنقلات">
+                <button type="button" id="undo-turn" aria-label="تراجع عن الدور الأخير">تراجع ↶</button>
+                <button type="button" id="redo-turn" aria-label="إعادة الدور الذي تراجعت عنه">إعادة ↷</button>
+                <span class="chronicle-divider" aria-hidden="true"></span>
+                <button type="button" id="history-back" aria-label="عرض النقلة السابقة">السابق</button>
+                <button type="button" id="history-next" aria-label="عرض النقلة التالية">التالي</button>
+                <button type="button" id="history-live" aria-label="العودة إلى الرقعة المباشرة">المباشر</button>
+              </div>
+            </div>
+            <p id="preview-notice" class="chronicle-notice" role="status" aria-live="polite"></p>
+            <div id="move-timeline" class="move-timeline" role="group" aria-label="نقلات المعركة للاستعراض فقط"></div>
+            <button type="button" id="export-pgn" class="export-pgn">تنزيل سجل PGN</button>
+          </section>
+        </section>
+
+        <aside id="settings-panel" class="sidebar" aria-label="إعدادات المعركة">
+          <section id="outcome" class="panel outcome-panel" role="status" aria-live="polite" hidden>
+            <p id="outcome-kicker" class="section-kicker">انتهت المعركة</p>
+            <h2 id="outcome-title"></h2>
+            <p id="outcome-detail"></p>
+          </section>
+
+          <section class="panel match-panel" aria-labelledby="match-title">
+            <div class="panel-heading">
+              <p class="section-kicker">خطّة المواجهة</p>
+              <h2 id="match-title">مجلس القيادة</h2>
+            </div>
+            <p class="panel-copy">قد جيش الفجر ضد الظل. اختر مستوى التحدي قبل البدء.</p>
+            <h3 id="difficulty-label">قوة جيش الظل</h3>
+            <div id="difficulty" class="difficulty-options" role="group" aria-labelledby="difficulty-label">
+              <button type="button" data-difficulty="easy" aria-pressed="true">سهل</button>
+              <button type="button" data-difficulty="medium" aria-pressed="false">متوسط</button>
+              <button type="button" data-difficulty="hard" aria-pressed="false">صعب</button>
+            </div>
+            <p id="difficulty-note" class="quiet-note">يتحرك الخصم عشوائيًا؛ مناسب للتجربة.</p>
+          </section>
+
+          <section class="panel realms-panel" aria-labelledby="realms-title">
+            <div class="panel-heading">
+              <p class="section-kicker">بوابات العوالم</p>
+              <h2 id="realms-title">أين تدور المعركة؟</h2>
+            </div>
+            <p class="panel-copy">خمس ساحات؛ تتبدّل الأرض والضوء والتضاريس الجانبية.</p>
+            <div id="themes" class="theme-gallery" role="group" aria-label="ساحات العوالم"></div>
+          </section>
+
+          <section class="panel history-panel" aria-labelledby="history-title">
+            <div class="panel-heading">
+              <p class="section-kicker">مخطوط المعركة</p>
+              <h2 id="history-title">سجل النقلات</h2>
+            </div>
+            <ol id="history" aria-live="off"></ol>
+            <p id="history-empty" class="quiet-note">لم تبدأ المعركة بعد.</p>
+          </section>
+        </aside>
+      </main>
+      <footer class="site-footer">شطرنج خيالي محلي <span aria-hidden="true">✧</span> HTML · CSS · JavaScript</footer>
+    </div>
+
+    <dialog id="confirm-end" aria-labelledby="confirm-end-title">
+      <h2 id="confirm-end-title">تنهي المعركة الآن؟</h2>
+      <p>الانسحاب يُحسب هزيمة، وستعود قائمة العوالم للاختيار من جديد.</p>
+      <div class="dialog-actions">
+        <button type="button" id="keep-playing" class="action-secondary">واصل اللعب</button>
+        <button type="button" id="confirm-forfeit" class="action-primary">انسحب من المعركة</button>
+      </div>
+    </dialog>
+
+    <dialog id="promotion" aria-labelledby="promotion-title">
+      <p class="section-kicker">ترقية المحارب</p>
+      <h2 id="promotion-title">اختر رتبة البيدق</h2>
+      <p>ارتقِ بقطعتك إلى إحدى رتب جيشك.</p>
+      <div class="promotion-choices">
+        <button type="button" value="q">ملكة</button>
+        <button type="button" value="r">قلعة</button>
+        <button type="button" value="b">فيل</button>
+        <button type="button" value="n">حصان</button>
+      </div>
+      <button type="button" id="cancel-promotion" class="action-secondary">إلغاء</button>
+    </dialog>
+
+    <!-- Classic local scripts work directly from file://, without Node or a server. -->
+    <script defer src="vendor/chess.js"></script>
+    <script defer src="vendor/three.min.js"></script>
+    <script defer src="assets/3d-textures.js"></script>
+    <script defer src="js/core/ai.js"></script>
+    <script defer src="js/core/game.js"></script>
+    <script defer src="js/ui/board.js"></script>
+    <script defer src="js/ui/themes.js"></script>
+    <script defer src="js/ui/controls.js"></script>
+    <script defer src="js/ui/fullscreen.js"></script>
+    <script defer src="js/ui/match-flow.js"></script>
+    <script defer src="js/ui/view-mode.js"></script>
+    <script defer src="js/ui/terrain-worlds.js"></script>
+    <script defer src="js/ui/war-motion.js"></script>
+    <script defer src="js/ui/three-view.js"></script>
+    <script defer src="js/ui/chronicle.js"></script>
+    <script defer src="js/ui/effects.js"></script>
+    <script defer src="js/app.js"></script>
+  </body>
+</html>

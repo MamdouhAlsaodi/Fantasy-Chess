@@ -1,0 +1,87 @@
+:root {
+  color-scheme: dark;
+  font-family: "Noto Naskh Arabic", Tahoma, sans-serif;
+  --ink: #fff4df;
+  --muted: #c9d3d4;
+  --gold: #f4d99d;
+  --gold-deep: #a9713f;
+  --panel: #121c2be3;
+  --line: #f1d49d69;
+  --square-light: #bcae91;
+  --square-dark: #506252;
+  --accent: #8cf0ec;
+  --rim: #dbb871;
+  --aura: #61e9f099;
+  --scene-image: url("../file_00000000c5f4820eb9cacb78eda61e2e.png");
+  background: #080f18;
+  color: var(--ink);
+}
+
+* { box-sizing: border-box; }
+html { min-width: 320px; scroll-behavior: smooth; }
+body { min-width: 320px; min-height: 100vh; margin: 0; }
+button { font: inherit; cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .52; }
+button:focus-visible, [role="gridcell"]:focus-visible {
+  outline: 3px solid #fff1ac;
+  outline-offset: -3px;
+  z-index: 5;
+}
+[hidden] { display: none !important; }
+
+body[data-theme="citadels"] {
+  --square-light: #d4ccbd;
+  --square-dark: #4c526c;
+  --accent: #9ef7ff;
+  --rim: #c8a7e7;
+  --aura: #aa66f3a8;
+  --scene-image: url("../file_0000000048b4820ebb013350c2a1dd12.png");
+}
+body[data-theme="glacier"] {
+  --square-light: #d9eaf1;
+  --square-dark: #668390;
+  --accent: #a1efff;
+  --rim: #b4e3f2;
+  --aura: #7ddaffbb;
+  --scene-image: url("../file_000000008814820e8455c514990d89fa.png");
+}
+body[data-theme="volcano"] {
+  --square-light: #c9ad91;
+  --square-dark: #503d40;
+  --accent: #ffaf7a;
+  --rim: #e09857;
+  --aura: #fc6c4daa;
+  --scene-image: url("../file_00000000e740820ea22a5efd59b1018c.png");
+}
+body[data-theme="desert"] {
+  --square-light: #e1c89b;
+  --square-dark: #9d7956;
+  --accent: #ffdc99;
+  --rim: #f0d498;
+  --aura: #f0c77a99;
+  --scene-image: url("../file_00000000f518820eb95f9aa64fc0c6ad.png");
+}
+
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: linear-gradient(90deg, #0b111dc2, #10152170 45%, #0b111dbb), var(--scene-image);
+  background-size: cover;
+  background-position: center, center 46%;
+  filter: saturate(1.12) contrast(1.04);
+}
+.scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 47%, transparent 24%, #07121b80 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
